@@ -1,0 +1,441 @@
+/* ========================================================= */
+/* Styles Généraux pour les Pages de Profil */
+/* Ces styles doivent être ajoutés à votre fichier global_styles.css */
+/* ========================================================= */
+
+/* Corps de la page de profil */
+.profile-page-body {
+    background-color: #f8f8f8; /* Un fond légèrement grisé pour les profils */
+    font-family: 'Inter', sans-serif; /* Assurer une consistance de police */
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Conteneur principal du contenu du profil */
+.main-content {
+    padding: 30px 20px; /* Espacement intérieur sur les côtés */
+    max-width: 1000px; /* Largeur maximale pour le contenu principal */
+    margin: 20px auto; /* Centrage du contenu sur les grands écrans */
+    box-sizing: border-box; /* Inclure padding dans la largeur totale */
+}
+
+/* Titre de la page (ex: "Mon Profil") */
+.page-title {
+    font-size: 2.5em;
+    color: #4A00B7; /* Couleur principale de l'application, ou adaptez */
+    text-align: center;
+    margin-bottom: 40px;
+    font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+}
+
+/* Carte principale du profil (contient l'image et les infos) */
+.profile-card {
+    background-color: #ffffff;
+    border-radius: 15px; /* Coins arrondis pour la carte */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Ombre plus prononcée */
+    padding: 40px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column; /* Disposition verticale par défaut */
+    align-items: center; /* Centrage des éléments (image, texte) */
+    text-align: center;
+    max-width: 700px; /* Largeur max de la carte de profil */
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #eee; /* Petite bordure discrète */
+}
+
+/* Conteneur de l'image de profil */
+.profile-image-container {
+    margin-bottom: 25px; /* Espacement sous l'image */
+    position: relative; /* Pour positionner éventuellement un badge ou un bouton d'upload */
+}
+
+/* Image de profil */
+.profile-image {
+    width: 180px; /* Taille plus grande pour l'image */
+    height: 180px;
+    border-radius: 50%; /* Rend l'image circulaire */
+    object-fit: cover; /* Assure que l'image remplit la zone sans déformation */
+    border: 5px solid #6c63ff; /* Bordure colorée autour de l'image */
+    box-shadow: 0 0 0 8px rgba(108, 99, 255, 0.2), 0 5px 15px rgba(0, 0, 0, 0.15); /* Double bordure et ombre douce */
+    transition: transform 0.3s ease-in-out; /* Effet de transition au survol */
+}
+
+.profile-image:hover {
+    transform: scale(1.05); /* Zoom léger au survol */
+}
+
+/* Titre de section dans la carte (ex: "Informations Personnelles") */
+.section-title {
+    font-size: 1.8em;
+    color: #4A00B7; /* Couleur principale */
+    margin-bottom: 25px;
+    font-weight: 600;
+    border-bottom: 2px solid rgba(108, 99, 255, 0.3); /* Ligne de séparation */
+    padding-bottom: 10px;
+    width: 100%; /* S'étend sur toute la largeur */
+}
+
+/* Conteneur des informations textuelles du profil */
+.profile-info {
+    width: 100%; /* Prend toute la largeur disponible */
+    text-align: left; /* Alignement du texte à gauche */
+    margin-top: 15px;
+}
+
+.profile-info p {
+    margin-bottom: 12px; /* Espacement entre chaque ligne d'information */
+    font-size: 1.1em;
+    color: #555;
+    display: flex; /* Utilise flexbox pour aligner label et valeur */
+    justify-content: space-between; /* Écarte le label et la valeur */
+    align-items: baseline;
+    padding: 5px 0;
+    border-bottom: 1px dashed #f0f0f0; /* Ligne pointillée entre les infos */
+}
+
+.profile-info p:last-child {
+    border-bottom: none; /* Pas de ligne sous la dernière info */
+}
+
+.profile-info strong {
+    color: #4A00B7; /* Couleur distincte pour les labels */
+    flex-basis: 40%; /* Donne une largeur de base au label */
+    text-align: left;
+    padding-right: 15px;
+}
+
+.profile-info span {
+    flex-basis: 60%; /* Donne une largeur de base à la valeur */
+    text-align: right; /* Alignement de la valeur à droite */
+    color: #333;
+    font-weight: 500;
+}
+
+/* Boutons d'action sur le profil */
+.profile-card .btn {
+    margin-top: 25px;
+    padding: 12px 25px;
+    font-size: 1.1em;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none; /* Pour les liens stylisés en boutons */
+    display: inline-block; /* Pour que les padding fonctionnent bien */
+}
+
+.profile-card .btn-primary {
+    background-color: #6c63ff; /* Bouton principal */
+    color: white;
+    border: none;
+    box-shadow: 0 4px 10px rgba(108, 99, 255, 0.3);
+}
+
+.profile-card .btn-primary:hover {
+    background-color: #5b53e6;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(108, 99, 255, 0.4);
+}
+
+/* Section CV / Upload */
+.cv-section {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin: 30px auto; /* Marge pour la séparer de la carte de profil */
+    max-width: 700px; /* Mêmes dimensions que la carte de profil pour la cohérence */
+    text-align: center;
+    border: 1px solid #eee;
+}
+
+.cv-section .btn-secondary {
+    background-color: #ffc107; /* Jaune pour les boutons secondaires/d'avertissement */
+    color: #333;
+    border: 1px solid #e0a800;
+}
+
+.cv-section .btn-secondary:hover {
+    background-color: #e0a800;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(255, 193, 7, 0.4);
+}
+
+.cv-section .btn-success {
+    background-color: #28a745; /* Vert pour succès/ajout */
+    color: white;
+    border: none;
+}
+
+.cv-section .btn-success:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.4);
+}
+
+/* Styles pour le formulaire d'upload du CV (dans upload_cv.php) */
+.upload-form-card {
+    max-width: 600px; /* Un peu plus large pour le formulaire d'upload */
+    margin: 40px auto;
+    padding: 35px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    border: 1px solid #eee;
+}
+.upload-form-card .form-group {
+    margin-bottom: 25px;
+}
+.upload-form-card .form-label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #4A00B7; /* Couleur principale */
+    font-size: 1.1em;
+}
+.upload-form-card .form-input-file {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box; /* Inclure padding et border dans la largeur */
+    font-size: 1em;
+    color: #555;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.upload-form-card .form-input-file:focus {
+    outline: none;
+    border-color: #6c63ff;
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+}
+
+.upload-form-card .btn {
+    margin-top: 15px;
+    padding: 12px 30px;
+    font-size: 1.1em;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.upload-form-card .cancel-link {
+    display: inline-block; /* Pour permettre les marges */
+    margin-top: 20px;
+    color: #6c63ff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+.upload-form-card .cancel-link:hover {
+    color: #4A00B7;
+    text-decoration: underline;
+}
+
+/* Messages d'information (succès/erreur) */
+.info-message {
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 1em;
+    font-weight: 500;
+    text-align: center;
+}
+.info-message.success {
+    background-color: #d4edda; /* Vert clair */
+    color: #155724; /* Vert foncé */
+    border: 1px solid #c3e6cb;
+}
+.info-message.error {
+    background-color: #f8d7da; /* Rouge clair */
+    color: #721c24; /* Rouge foncé */
+    border: 1px solid #f5c6cb;
+}
+.info-message-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* ========================================================= */
+/* Styles pour les tableaux */
+/* ========================================================= */
+
+.table-responsive {
+    overflow-x: auto; /* Permet le défilement horizontal sur les petits écrans */
+    -webkit-overflow-scrolling: touch; /* Améliore le défilement sur iOS */
+    margin-bottom: 20px;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse; /* Supprime les espacements entre les cellules */
+    margin: 20px 0;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+    overflow: hidden; /* Assure que les coins arrondis sont respectés */
+}
+
+.data-table th,
+.data-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0; /* Ligne de séparation des cellules */
+}
+
+.data-table th {
+    background-color: #6c63ff; /* En-tête coloré */
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    letter-spacing: 0.05em;
+}
+
+.data-table tr:last-child td {
+    border-bottom: none; /* Pas de bordure sous la dernière ligne */
+}
+
+.data-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Bandes alternées pour la lisibilité */
+}
+
+.data-table tbody tr:hover {
+    background-color: #eef2ff; /* Couleur au survol de la ligne */
+    cursor: pointer;
+}
+
+/* Styles pour les cellules d'action si vous avez des boutons dans le tableau */
+.data-table .table-actions {
+    display: flex;
+    gap: 8px; /* Espace entre les boutons d'action */
+    justify-content: flex-start; /* Aligner à gauche si c'est une colonne d'actions */
+}
+
+/* ========================================================= */
+/* Adaptabilité Mobile (Responsive Design) */
+/* ========================================================= */
+@media (max-width: 768px) {
+    .main-content {
+        padding: 20px 15px; /* Réduire le padding sur les petits écrans */
+    }
+
+    .page-title {
+        font-size: 2em; /* Réduire la taille du titre */
+        margin-bottom: 30px;
+    }
+
+    .profile-card,
+    .cv-section,
+    .upload-form-card,
+    .data-table { /* Appliquer aux tableaux aussi */
+        padding: 25px; /* Réduire le padding des cartes */
+        border-radius: 10px; /* Coins un peu moins arrondis */
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Ombre plus légère */
+    }
+
+    .profile-image {
+        width: 140px; /* Réduire la taille de l'image de profil */
+        height: 140px;
+        border-width: 4px; /* Réduire l'épaisseur de la bordure */
+    }
+
+    .section-title {
+        font-size: 1.5em; /* Réduire la taille des titres de section */
+        margin-bottom: 20px;
+    }
+
+    .profile-info p {
+        font-size: 1em; /* Réduire la taille du texte d'information */
+        flex-direction: column; /* Empiler label et valeur sur petits écrans */
+        align-items: flex-start; /* Aligner le texte à gauche */
+        padding: 8px 0;
+    }
+
+    .profile-info strong,
+    .profile-info span {
+        text-align: left !important; /* Forcer l'alignement à gauche */
+        flex-basis: auto; /* Supprimer les largeurs fixes */
+        width: 100%; /* Occuper toute la largeur */
+    }
+    .profile-info strong {
+        margin-bottom: 3px; /* Petite marge sous le label quand empilé */
+    }
+
+    .profile-card .btn,
+    .upload-form-card .btn {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+
+    /* Responsive pour les tableaux sur mobile */
+    .data-table thead {
+        display: none; /* Masquer l'en-tête de tableau sur mobile */
+    }
+
+    .data-table, .data-table tbody, .data-table tr, .data-table td {
+        display: block; /* Faire en sorte que les éléments du tableau se comportent comme des blocs */
+        width: 100%;
+    }
+
+    .data-table tr {
+        margin-bottom: 15px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        display: flex;
+        flex-direction: column; /* Empiler les cellules verticalement */
+        padding: 15px;
+    }
+    
+    .data-table td {
+        text-align: right;
+        padding-left: 50%; /* Espace pour le pseudo-élément */
+        position: relative;
+        border-bottom: 1px dashed #f0f0f0;
+        font-size: 0.95em;
+    }
+
+    .data-table td:last-child {
+        border-bottom: none;
+    }
+
+    /* Afficher le label de l'en-tête comme pseudo-élément dans chaque cellule */
+    .data-table td::before {
+        content: attr(data-label); /* Utiliser l'attribut data-label de la cellule */
+        position: absolute;
+        left: 15px;
+        width: calc(50% - 30px); /* Ajuster la largeur du label */
+        padding-right: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: bold;
+        color: #4A00B7; /* Couleur principale */
+        text-align: left;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-title {
+        font-size: 1.8em;
+        margin-bottom: 25px;
+    }
+    .profile-image {
+        width: 120px;
+        height: 120px;
+    }
+    .profile-card, .cv-section, .upload-form-card, .data-table {
+        padding: 20px;
+    }
+    .section-title {
+        font-size: 1.3em;
+        margin-bottom: 15px;
+    }
+    .data-table td::before {
+        width: calc(45% - 25px); /* Ajustement supplémentaire pour les très petits écrans */
+    }
+}
