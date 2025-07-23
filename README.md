@@ -42,5 +42,5 @@ Félicitations ! Votre plateforme est maintenant installée.
 http://localhost/nom_de_votre_dossier_projet
 Remplacez nom_de_votre_dossier_projet par le nom du dossier où vous avez placé les fichiers de la plateforme (par exemple, http://localhost/gestion-stages).
 Votre plateforme de gestion de stages devrait maintenant être accessible !
-Ensuite accéder à a seesion àpropos de la page d'acceuil pour voir comment utiliser le site 
+Ensuite accéder à a session aide de la page d'acceuil pour voir comment utiliser le site 
 
