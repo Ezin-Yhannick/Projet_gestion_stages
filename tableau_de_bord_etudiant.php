@@ -570,6 +570,20 @@ $username = $_SESSION['username'] ?? 'N/A'; // Nom d'utilisateur (peut être le 
             <p id="messageModalText" class="message-text"></p>
         </div>
     </div>
+    <div id="rapportDepotSection" class="hidden">
+    <h2 class="text-xl font-semibold mb-4">Déposer mon rapport de stage</h2>
+    <form id="rapportUploadForm" enctype="multipart/form-data">
+        <input type="hidden" id="rapportApplicationId" name="application_id" value="[ID_DE_LA_CANDIDATURE_DU_STAGE_ACTUEL]">
+        <div class="mb-4">
+            <label for="rapportFile" class="block text-gray-700 text-sm font-bold mb-2">Sélectionner le fichier du rapport (PDF, DOCX, max 10 Mo) :</label>
+            <input type="file" id="rapportFile" name="rapport_stage" accept=".pdf,.doc,.docx" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Déposer le rapport
+        </button>
+        <p id="uploadMessage" class="mt-2 text-sm"></p>
+    </form>
+</div>
 
     <!-- NOUVELLE MODALE : Formulaire de Candidature -->
     <div id="applyModal" class="modal">
@@ -753,7 +767,7 @@ $username = $_SESSION['username'] ?? 'N/A'; // Nom d'utilisateur (peut être le 
                                         <button class="btn btn-danger student-reject-btn" data-application-id="${application.id_candidature}">Refuser l'offre</button>
                                     `;
                                     listItem.appendChild(actionsDiv);
-                                } else if (application.statut === 'signée' && application.convention_pdf_path) {
+                                } else if (application.statut === 'en cours' && application.convention_pdf_path) {
                                     // Si la convention est signée et le chemin PDF est disponible
                                     const conventionLinkDiv = document.createElement('div');
                                     conventionLinkDiv.classList.add('card-actions');
@@ -792,26 +806,104 @@ $username = $_SESSION['username'] ?? 'N/A'; // Nom d'utilisateur (peut être le 
 
             // Nouvelle fonction pour afficher le stage actuel
             function displayCurrentInternship() {
-                if (currentActiveInternship) {
-                    noCurrentInternshipMessage.classList.add('hidden');
-                    actualInternshipDetails.classList.remove('hidden');
-                    actualInternshipDetails.innerHTML = `
-                        <h4 class="card-title">${currentActiveInternship.sujet}</h4>
-                        <p class="card-text"><span class="font-semibold">Entreprise:</span> ${currentActiveInternship.nomentreprise || 'N/A'}</p>
-                        <p class="card-text"><span class="font-semibold">Durée:</span> ${currentActiveInternship.duree} mois</p>
-                        <p class="card-text"><span class="font-semibold">Niveau:</span> ${currentActiveInternship.niveau_requis || 'Non spécifié'}</p>
-                        <p class="card-text"><span class="font-semibold">Lieu:</span> ${currentActiveInternship.lieu || 'Non spécifié'}</p>
-                        <p class="card-text mb-4"><span class="font-semibold">Rémunération:</span> ${currentActiveInternship.renumeration || 'Non spécifiée'}</p>
-                        <p class="card-text"><span class="font-semibold">Description:</span> ${currentActiveInternship.description || 'Non disponible'}</p>
-                        <p class="card-text"><span class="font-semibold">Statut de la convention:</span> <span class="status status-signed">${currentActiveInternship.convention_status || 'Signée'}</span></p>
-                        <a href="${currentActiveInternship.convention_pdf_path}" target="_blank" class="btn btn-primary" style="margin-top: 15px;">Voir la Convention PDF</a>
-                    `;
-                } else {
-                    noCurrentInternshipMessage.classList.remove('hidden');
-                    actualInternshipDetails.classList.add('hidden');
-                    actualInternshipDetails.innerHTML = ''; // Nettoyer les détails précédents
+    // Référence à la section qui contient le formulaire de dépôt (initialement cachée)
+    const rapportDepotSection = document.getElementById('rapportDepotSection');
+    // Référence à la section qui contient les infos sur l'attestation (à créer si ce n'est pas déjà fait)
+    //const attestationSection = document.getElementById('attestationSection'); 
+
+    if (currentActiveInternship) {
+        noCurrentInternshipMessage.classList.add('hidden');
+        actualInternshipDetails.classList.remove('hidden');
+        
+        // Formater les dates pour l'affichage
+        const dateDebut = currentActiveInternship.date_debut_stage ? new Date(currentActiveInternship.date_debut_stage).toLocaleDateString('fr-FR') : 'Non définie';
+        const dateFin = currentActiveInternship.date_fin_stage ? new Date(currentActiveInternship.date_fin_stage).toLocaleDateString('fr-FR') : 'Non définie';
+
+        // Déterminer la classe de statut du rapport pour le style CSS
+        let rapportStatusClass = '';
+        switch (currentActiveInternship.rapport_statut) {
+            case 'non soumis': rapportStatusClass = 'status-en-attente'; break; // À adapter à vos classes CSS pour les statuts
+            case 'soumis': rapportStatusClass = 'status-en-attente-validation'; break; // Nouvelle classe si besoin
+            case 'validé': rapportStatusClass = 'status-acceptée'; break;
+            case 'refusé': rapportStatusClass = 'status-refusée'; break;
+            default: rapportStatusClass = '';
+        }
+
+        actualInternshipDetails.innerHTML = `
+            <h4 class="card-title">${currentActiveInternship.sujet}</h4>
+            <p class="card-text"><span class="font-semibold">Entreprise:</span> ${currentActiveInternship.nomentreprise || 'N/A'}</p>
+            <p class="card-text"><span class="font-semibold">Durée:</span> ${currentActiveInternship.duree} mois</p>
+            <p class="card-text"><span class="font-semibold">Niveau:</span> ${currentActiveInternship.niveau_requis || 'Non spécifié'}</p>
+            <p class="card-text"><span class="font-semibold">Lieu:</span> ${currentActiveInternship.lieu || 'Non spécifié'}</p>
+            <p class="card-text mb-4"><span class="font-semibold">Rémunération:</span> ${currentActiveInternship.renumeration || 'Non spécifiée'}</p>
+            <p class="card-text"><span class="font-semibold">Description:</span> ${currentActiveInternship.description || 'Non disponible'}</p>
+            <p class="card-text"><span class="font-semibold">Statut de la convention:</span> <span class="status status-signed">${currentActiveInternship.convention_status || 'Signée'}</span></p>
+            <a href="${currentActiveInternship.convention_pdf_path}" target="_blank" class="btn btn-primary" style="margin-top: 15px;">Voir la Convention PDF</a>
+
+            <hr class="my-4"> <h5 class="font-semibold text-lg purple">Dates Effectives du Stage</h5>
+            <p class="card-text"><span class="font-semibold">Début:</span> ${dateDebut}</p>
+            <p class="card-text"><span class="font-semibold">Fin:</span> ${dateFin}</p>
+
+            <h5 class="font-semibold text-lg purple mt-4">Rapport de Stage</h5>
+            <p class="card-text"><strong>Statut du rapport:</strong> <span class="status ${rapportStatusClass}">${currentActiveInternship.rapport_statut || 'Non soumis'}</span></p>
+            ${currentActiveInternship.rapport_url ? `
+                <a href="${currentActiveInternship.rapport_url}" target="_blank" class="btn btn-secondary mt-2">Voir mon rapport de stage</a>
+            ` : ''}
+            
+            <h5 class="font-semibold text-lg purple mt-4">Attestation de Fin de Stage</h5>
+            ${currentActiveInternship.attestation_url ? `
+                <p class="card-text">Votre attestation est disponible.</p>
+                <a href="${currentActiveInternship.attestation_url}" target="_blank" class="btn btn-info mt-2">Télécharger mon attestation</a>
+            ` : `
+                <p class="card-text">Attestation non disponible. Elle le sera après validation de votre rapport par l'entreprise.</p>
+            `}
+        `;
+
+        // Gérer la visibilité de la section de dépôt du rapport
+        const today = new Date();
+        const internshipEndDate = currentActiveInternship.date_fin_stage ? new Date(currentActiveInternship.date_fin_stage) : null;
+
+        if (rapportDepotSection) { // S'assurer que la section existe dans le HTML
+            if (internshipEndDate && today > internshipEndDate && 
+                (currentActiveInternship.rapport_statut === 'non soumis' || currentActiveInternship.rapport_statut === 'refusé')) {
+                rapportDepotSection.classList.remove('hidden'); // Afficher le formulaire de dépôt
+                // Mettre à jour l'ID de la candidature dans le formulaire
+                const rapportApplicationIdInput = document.getElementById('rapportApplicationId');
+                if (rapportApplicationIdInput) {
+                    rapportApplicationIdInput.value = currentActiveInternship.id_candidature;
                 }
+            } else {
+                rapportDepotSection.classList.add('hidden'); // Cacher le formulaire de dépôt
             }
+        }
+
+        // Gérer la visibilité de la section de l'attestation si elle est séparée ou a besoin d'une logique complexe
+        // Pour l'instant, c'est intégré dans actualInternshipDetails.innerHTML
+        // Si vous avez une 'attestationSection' séparée, vous pourriez faire:
+        /*
+        if (attestationSection) {
+            if (currentActiveInternship.attestation_url) {
+                attestationSection.classList.remove('hidden');
+                // Et remplir attestationSection.innerHTML ici
+            } else {
+                attestationSection.classList.add('hidden');
+            }
+        }
+        */
+
+    } else {
+        noCurrentInternshipMessage.classList.remove('hidden');
+        actualInternshipDetails.classList.add('hidden');
+        actualInternshipDetails.innerHTML = ''; // Nettoyer les détails précédents
+        
+        // Cacher également le formulaire de dépôt si aucun stage actif
+        if (rapportDepotSection) {
+            rapportDepotSection.classList.add('hidden');
+        }
+        // Et l'attestationSection si elle est gérée séparément
+        // if (attestationSection) { attestationSection.classList.add('hidden'); }
+    }
+}
 
 
             function createOfferCard(offer) {

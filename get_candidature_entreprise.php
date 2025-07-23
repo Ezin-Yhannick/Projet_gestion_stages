@@ -50,7 +50,9 @@ try {
             ps.sujet,
             te.nom AS student_nom,
             te.prenom AS student_prenom,
-            te.email AS student_email
+            te.email AS student_email,
+            tc.date_fin_stage,
+            tc.date_debut_stage
         FROM 
             tb_candidature tc
         JOIN 

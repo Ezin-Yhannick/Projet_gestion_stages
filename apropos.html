@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pack d'Installation - Plateforme de Gestion de Stages</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+        .step-content {
+            min-height: 250px; /* Assure une hauteur minimale pour éviter les CLS */
+            text-align: left;
+            margin-top: 20px;
+        }
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-primary {
+            background-color: #4f46e5;
+            color: white;
+            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+        }
+        .btn-primary:hover {
+            background-color: #4338ca;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background-color: #e2e8f0;
+            color: #4a5568;
+        }
+        .btn-secondary:hover {
+            background-color: #cbd5e0;
+            transform: translateY(-2px);
+        }
+        .btn-disabled {
+            background-color: #e2e8f0;
+            color: #a0aec0;
+            cursor: not-allowed;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: #4f46e5;
+            width: 0%;
+            border-radius: 4px;
+            transition: width 0.4s ease-in-out;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        ol {
+            list-style-type: decimal;
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        code {
+            background-color: #f8f8f8;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+        pre {
+            background-color: #f0f2f5;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            font-family: monospace;
+            font-size: 0.9em;
+            color: #333;
+        }
+        .download-btn-container {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+        }
+        /* Styles for FAQ section */
+        .faq-item {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 15px;
+        }
+        .faq-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .faq-question {
+            font-weight: 600;
+            color: #333;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            color: #555;
+            padding-left: 10px;
+        }
+        .faq-answer.active {
+            max-height: 200px; /* Adjust as needed for content */
+            padding-top: 10px;
+        }
+        .faq-question svg {
+            transition: transform 0.3s ease-out;
+        }
+        .faq-question.active svg {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Pack d'Installation de la Plateforme de Stages</h1>
+
+        <div class="progress-bar">
+            <div id="progress-fill" class="progress-fill"></div>
+        </div>
+
+        <h2 id="step-title" class="text-2xl font-semibold text-gray-700 mb-4"></h2>
+
+        <div id="step-content" class="step-content text-gray-700 leading-relaxed">
+            <!-- Content will be loaded here by JavaScript -->
+        </div>
+
+        <div class="flex justify-between mt-8">
+            <button id="prev-btn" class="btn btn-secondary" disabled>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+                Précédent
+            </button>
+            <button id="next-btn" class="btn btn-primary">
+                Suivant
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Array of installation steps
+        const steps = [
+            {
+                title: "Foire Aux Questions (FAQ)",
+                content: `
+                    <p class="mb-4">Cette section répond aux questions fréquentes concernant l'utilisation de la plateforme de gestion de stages, pour les étudiants et les entreprises.</p>
+
+                    <h3 class="text-xl font-semibold text-gray-700 mb-4">Pour les Étudiants</h3>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Comment créer un compte étudiant ?
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Sur la page d'accueil de la plateforme, cliquez sur "Inscription" ou "Créer un compte". Sélectionnez le type de compte "Étudiant" et remplissez le formulaire avec vos informations personnelles, académiques et votre CV.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Comment rechercher des offres de stage ?
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Une fois connecté, utilisez la barre de recherche ou les filtres (domaine, localisation, durée, rémunération) disponibles sur la page "Offres de stage" pour trouver des opportunités.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Comment postuler à une offre de stage ?
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Sur la page de détail de l'offre, cliquez sur le bouton "Postuler". Vous pourrez joindre votre CV et une lettre de motivation si nécessaire, puis confirmer votre candidature.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Puis-je suivre le statut de mes candidatures ?
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Oui, votre tableau de bord étudiant inclut une section "Mes candidatures" où vous pouvez voir le statut de chaque postulation (Envoyée, En cours, Acceptée, Refusée).</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Comment mettre à jour mon profil ou mon CV ?
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Allez dans la section "Mon Profil" de votre tableau de bord. Vous pourrez y modifier vos informations personnelles, académiques et télécharger une nouvelle version de votre CV.</p>
+                        </div>
+                    </div>
+
+                    <h3 class="text-xl font-semibold text-gray-700 mt-8 mb-4">Pour les Entreprises</h3>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Comment créer un compte entreprise ?
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Sur la page d'accueil, cliquez sur "Inscription" et sélectionnez "Entreprise". Remplissez les informations de votre entreprise (nom, secteur, description, contact) pour créer votre profil.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Comment publier une offre de stage ?
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Après vous être connecté, accédez à votre tableau de bord entreprise et cliquez sur "Publier une offre". Remplissez tous les champs requis (titre, description, compétences, durée, etc.) et soumettez l'offre.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Comment gérer les candidatures reçues ?
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucude-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Dans votre tableau de bord, la section "Mes offres" vous permet de voir les candidatures pour chaque stage. Vous pouvez consulter les profils des étudiants, changer le statut des candidatures (pré-sélectionné, interview, refusé, etc.) et envoyer des messages.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Puis-je consulter les profils des étudiants ?
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Oui, en cliquant sur une candidature, vous aurez accès au profil complet de l'étudiant, y compris son CV, ses compétences et ses expériences.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Comment modifier ou supprimer une offre de stage ?
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Dans la section "Mes offres" de votre tableau de bord, chaque offre a des options pour la modifier ou la supprimer. Cliquez sur l'icône d'édition ou de suppression à côté de l'offre concernée.</p>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        let currentStep = 0;
+        const stepTitle = document.getElementById('step-title');
+        const stepContent = document.getElementById('step-content');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const progressFill = document.getElementById('progress-fill');
+
+        // Function to update the UI based on the current step
+        function updateStepUI() {
+            stepTitle.innerHTML = steps[currentStep].title;
+            stepContent.innerHTML = steps[currentStep].content;
+
+            prevBtn.disabled = currentStep === 0;
+            nextBtn.disabled = currentStep === steps.length - 1;
+
+            // Update progress bar
+            const progress = ((currentStep + 1) / steps.length) * 100;
+            progressFill.style.width = `${progress}%`;
+
+            // Adjust button text for the last step
+            if (currentStep === steps.length - 1) {
+                nextBtn.innerHTML = 'Terminé <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><polyline points="20 6 9 17 4 12"/></svg>';
+                nextBtn.classList.remove('btn-primary');
+                nextBtn.classList.add('btn-disabled'); // Make it disabled after completion
+            } else {
+                nextBtn.innerHTML = 'Suivant <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
+                nextBtn.classList.remove('btn-disabled');
+                nextBtn.classList.add('btn-primary');
+            }
+
+            // Add event listeners for FAQ toggles if on the FAQ step
+            if (currentStep === steps.length - 1) {
+                document.querySelectorAll('.faq-question').forEach(question => {
+                    question.addEventListener('click', () => {
+                        const answer = question.nextElementSibling;
+                        question.classList.toggle('active');
+                        answer.classList.toggle('active');
+                        if (answer.classList.contains('active')) {
+                            answer.style.maxHeight = answer.scrollHeight + "px";
+                        } else {
+                            answer.style.maxHeight = null;
+                        }
+                    });
+                });
+            }
+        }
+
+        // Event listeners for navigation buttons
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 0) {
+                currentStep--;
+                updateStepUI();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentStep < steps.length - 1) {
+                currentStep++;
+                updateStepUI();
+            } else if (currentStep === steps.length - 1) {
+                // Optionally, you can redirect or show a final message here
+                // alert("Installation terminée ! Vous pouvez maintenant accéder à votre plateforme.");
+                // For a more user-friendly experience, you might display a modal instead of alert
+                const finalMessage = "Installation terminée ! Vous pouvez maintenant accéder à votre plateforme de gestion de stages et explorer ses fonctionnalités.";
+                const container = document.querySelector('.container');
+                container.innerHTML = `
+                    <h1 class="text-3xl font-bold text-gray-800 mb-6">Installation Terminée !</h1>
+                    <p class="text-lg text-gray-700 mb-8">${finalMessage}</p>
+                    <a href="http://localhost/nom_de_votre_dossier_projet" target="_blank" class="btn btn-primary">
+                        Accéder à la Plateforme
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                    </a>
+                `;
+            }
+        });
+
+        // Initial load
+        updateStepUI();
+    </script>
+</body>
+</html>

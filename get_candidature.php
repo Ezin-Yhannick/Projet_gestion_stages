@@ -77,7 +77,9 @@ try {
             ps.renumeration,
             e.nom_entreprise AS nomentreprise,
             cs.chemin_pdf AS convention_pdf_path,
-            cs.statut_convention AS convention_status
+            cs.statut_convention AS convention_status,
+            tc.date_fin_stage,
+            tc.date_debut_stage
         FROM 
             tb_candidature tc
         JOIN 

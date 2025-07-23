@@ -421,6 +421,178 @@ $company_name = $_SESSION['username'] ?? 'N/A'; // 'username' contient le nom de
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        /* Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    display: flex; /* Use flexbox for centering */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto; /* Centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more specific, e.g., 500px */
+    max-width: 500px; /* Max width for larger screens */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    position: relative;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-title {
+    color: #4a004a; /* Purple */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal .form-group {
+    margin-bottom: 15px;
+}
+
+.modal .date-input {
+    width: calc(100% - 20px); /* Adjust for padding */
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#saveModalDatesBtn {
+    display: block;
+    width: 100%;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #4a004a; /* Purple */
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+#saveModalDatesBtn:hover {
+    background-color: #6a006a; /* Darker purple */
+}
+
+/* Animation for modal */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Existing styles for card and buttons (assumed to be in your CSS) */
+.active-internship-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 5px solid #4a004a; /* Purple accent */
+}
+
+.card-title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.purple {
+    color: #4a004a;
+}
+
+.status {
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 5px;
+    color: white;
+}
+
+.status-acceptée { background-color: #28a745; /* Green */ }
+.status-signée { background-color: #007bff; /* Blue */ }
+.status-en-cours { background-color: #ffc107; /* Yellow/Orange */ }
+.status-terminée { background-color: #6c757d; /* Grey */ }
+
+.card-actions {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+    gap: 10px; /* Space between buttons */
+    justify-content: flex-start; /* Align buttons to the start */
+}
+
+.btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    text-decoration: none; /* For anchor buttons */
+    display: inline-flex; /* For consistent button sizing */
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.btn-primary {
+    background-color: #4a004a;
+    color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: #6a006a;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background-color: #5a6268;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.btn-info:hover:not(:disabled) {
+    background-color: #138496;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
     </style>
 </head>
 <body>
@@ -504,6 +676,23 @@ $company_name = $_SESSION['username'] ?? 'N/A'; // 'username' contient le nom de
             <p id="messageModalText" class="message-text"></p>
         </div>
     </div>
+    <!-- Modal pour définir les dates de stage -->
+<div id="dateModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h3 class="modal-title">Définir les dates de stage</h3>
+        <div class="form-group">
+            <label for="modalDateDebut">Date de début:</label>
+            <input type="date" id="modalDateDebut" class="date-input">
+        </div>
+        <div class="form-group">
+            <label for="modalDateFin">Date de fin:</label>
+            <input type="date" id="modalDateFin" class="date-input">
+        </div>
+        <button class="btn btn-primary" id="saveModalDatesBtn">Sauvegarder les dates</button>
+    </div>
+</div>
+
 
     <footer>
         <p>&copy; 2025 Université [Nom de l'université]. Tous droits réservés.</p>
@@ -535,6 +724,18 @@ $company_name = $_SESSION['username'] ?? 'N/A'; // 'username' contient le nom de
             const messageModalTitle = document.getElementById('messageModalTitle');
             const messageModalText = document.getElementById('messageModalText');
             const messageModalCloseButton = messageModal.querySelector('.close-button');
+            let activeInternshipsData = {};
+
+            // Références aux éléments du modal (à obtenir une fois que le DOM est chargé)
+            const dateModal = document.getElementById('dateModal');
+            const closeButton = dateModal.querySelector('.close-button');
+            const modalDateDebutInput = document.getElementById('modalDateDebut');
+            const modalDateFinInput = document.getElementById('modalDateFin');
+            const saveModalDatesBtn = document.getElementById('saveModalDatesBtn');
+
+            // Variable pour stocker l'ID de la candidature actuellement éditée dans le modal
+            let currentModalCandidatureId = null;
+
 
             let timeoutId; // Variable pour stocker l'ID du temporisateur de fermeture automatique.
 
@@ -867,7 +1068,9 @@ $company_name = $_SESSION['username'] ?? 'N/A'; // 'username' contient le nom de
                         console.log('loadActiveInternships: Réponse JSON analysée:', result);
 
                         if (result.success && result.internships.length > 0) {
-                            result.internships.forEach(internship => {
+                            activeInternshipsData = {}; 
+                                 result.internships.forEach(internship => {
+                                activeInternshipsData[internship.id_candidature] = internship;
                                 const card = createActiveInternshipCard(internship);
                                 activeInternshipsContainer.appendChild(card);
                             });
@@ -892,108 +1095,149 @@ $company_name = $_SESSION['username'] ?? 'N/A'; // 'username' contient le nom de
                 }
             }
 
-            // NOUVEAU: Fonction pour créer une carte de stage actif
             function createActiveInternshipCard(internship) {
-                const card = document.createElement('div');
-                card.classList.add('active-internship-card', 'card');
-                card.dataset.idCandidature = internship.id_candidature;
+    const card = document.createElement('div');
+    card.classList.add('active-internship-card', 'card');
+    card.dataset.idCandidature = internship.id_candidature;
 
-                // Formater les dates si elles existent
-                const dateCandidature = internship.date_candidature ? new Date(internship.date_candidature).toLocaleDateString('fr-FR') : 'N/A';
-                const dateDebut = internship.date_debut_stage ? internship.date_debut_stage : ''; // Garder le format YYYY-MM-DD pour l'input
-                const dateFin = internship.date_fin_stage ? internship.date_fin_stage : ''; // Garder le format YYYY-MM-DD pour l'input
+    // Formater les dates si elles existent
+    const dateCandidature = internship.date_candidature ? new Date(internship.date_candidature).toLocaleDateString('fr-FR') : 'N/A';
 
-                let statusClass = '';
-                switch (internship.statut) {
-                    case 'acceptée': statusClass = 'status-acceptée'; break;
-                    case 'signée': statusClass = 'status-signée'; break;
-                    case 'en cours': statusClass = 'status-en-cours'; break;
-                    default: statusClass = '';
-                }
+    let statusClass = '';
+    switch (internship.statut) {
+        case 'acceptée': statusClass = 'status-acceptée'; break;
+        case 'signée': statusClass = 'status-signée'; break;
+        case 'en cours': statusClass = 'status-en-cours'; break;
+        case 'terminée': statusClass = 'status-terminée'; break;
+        default: statusClass = '';
+    }
 
-                card.innerHTML = `
-                    <h4 class="card-title purple">${internship.titre_offre}</h4>
-                    <p><strong>Étudiant:</strong> ${internship.prenom_etudiant} ${internship.nom_etudiant}</p>
-                    <p><strong>Statut:</strong> <span class="status ${statusClass}">${internship.statut}</span></p>
-                    <p><strong>Date de candidature:</strong> ${dateCandidature}</p>
+    // Déterminer l'état 'disabled' et le texte du bouton en fonction du statut
+    const isSaveButtonDisabled = (internship.statut === 'en cours' || internship.statut === 'terminée');
+    
+    let saveButtonText = 'Définir les dates';
+    if (internship.statut === 'en cours') {
+        saveButtonText = 'Stage en cours';
+    } else if (internship.statut === 'terminée') {
+        saveButtonText = 'Dates définies';
+    }
 
-                    <div class="form-group">
-                        <label for="dateDebut_${internship.id_candidature}"><strong>Date de début:</strong></label>
-                        <input type="date" id="dateDebut_${internship.id_candidature}" value="${dateDebut}" class="date-input" ${internship.statut === 'en cours' ? 'disabled' : ''}>
-                    </div>
-                    <div class="form-group">
-                        <label for="dateFin_${internship.id_candidature}">Date de fin:</label>
-                        <input type="date" id="dateFin_${internship.id_candidature}" value="${dateFin}" class="date-input" ${internship.statut === 'en cours' ? 'disabled' : ''}>
-                    </div>
+    card.innerHTML = `
+        <h4 class="card-title purple">${internship.titre_offre}</h4>
+        <p><strong>Étudiant:</strong> ${internship.prenom_etudiant} ${internship.nom_etudiant}</p>
+        <p><strong>Statut:</strong> <span class="status ${statusClass}">${internship.statut}</span></p>
+        <p><strong>Date de candidature:</strong> ${dateCandidature}</p>
 
-                    <div class="card-actions">
-                        <button class="btn btn-primary save-dates-btn" data-id-candidature="${internship.id_candidature}" ${internship.statut === 'en cours' ? 'disabled' : ''}>
-                            ${internship.statut === 'terminée' ? 'Dates définies' : 'Définir les dates'}
-                        </button>
-                        ${internship.rapport_stage ? `
-                            <a href="${internship.chemin_rapport_stage}" target="_blank" class="btn btn-info download-report-btn">
-                                Télécharger Rapport
-                            </a>
-                        ` : ''}
-                    </div>
-                `;
-                return card;
-            }
+        <div class="card-actions">
+            <button class="btn btn-primary open-date-modal-btn" data-id-candidature="${internship.id_candidature}" ${isSaveButtonDisabled ? 'disabled' : ''}>
+                ${saveButtonText}
+            </button>
+            ${internship.rapport_stage ? `
+                <a href="${internship.chemin_rapport_stage}" target="_blank" class="btn btn-info download-report-btn">
+                    Télécharger Rapport
+                </a>
+            ` : ''}
+        </div>
+    `;
+    return card;
+}
 
-            // NOUVEAU: Écouteur d'événements pour les boutons "Définir les dates"
-            activeInternshipsContainer.addEventListener('click', async (event) => {
-                const target = event.target;
-                if (target.classList.contains('save-dates-btn')) {
-                    const idCandidature = target.dataset.idCandidature;
-                    const dateDebutInput = document.getElementById(`dateDebut_${idCandidature}`);
-                    const dateFinInput = document.getElementById(`dateFin_${idCandidature}`);
+// Écouteur d'événements pour le conteneur des stages actifs (délégation d'événements)
+// Ceci remplace et étend votre écouteur existant pour gérer le modal
+activeInternshipsContainer.addEventListener('click', async (event) => {
+    const target = event.target;
 
-                    const dateDebut = dateDebutInput.value;
-                    const dateFin = dateFinInput.value;
+    // Gérer l'ouverture du modal
+    if (target.classList.contains('open-date-modal-btn')) {
+        const idCandidature = target.dataset.idCandidature;
+        currentModalCandidatureId = idCandidature; // Stocker l'ID pour la sauvegarde
 
-                    if (!dateDebut || !dateFin) {
-                        showMessageBox('Veuillez saisir les dates de début et de fin.', 'error');
-                        return;
-                    }
+        const internship = activeInternshipsData[idCandidature];
+        if (internship) {
+            modalDateDebutInput.value = internship.date_debut_stage || '';
+            modalDateFinInput.value = internship.date_fin_stage || '';
+            
+            // Désactiver les champs dans le modal si le stage est déjà 'en cours' ou 'terminée'
+            const isDateDebutDisabled = (internship.statut === 'en cours' || internship.statut === 'terminée');
+            const isDateFinDisabled = (internship.statut === 'terminée');
+            const isSaveButtonDisabled = (internship.statut === 'en cours' || internship.statut === 'terminée');
 
-                    if (new Date(dateFin) < new Date(dateDebut)) {
-                        showMessageBox('La date de fin ne peut pas être antérieure à la date de début.', 'error');
-                        return;
-                    }
+            modalDateDebutInput.disabled = isDateDebutDisabled;
+            modalDateFinInput.disabled = isDateFinDisabled;
+            saveModalDatesBtn.disabled = isSaveButtonDisabled;
+            saveModalDatesBtn.textContent = isSaveButtonDisabled ? 'Dates définies' : 'Sauvegarder les dates';
 
-                    console.log(`Tentative de sauvegarde des dates pour candidature ID ${idCandidature}: Début ${dateDebut}, Fin ${dateFin}`);
+            dateModal.style.display = 'flex'; // Afficher le modal
+        } else {
+            showMessageBox('Détails du stage non trouvés.', 'error');
+        }
+    }
+    // Les autres actions (Voir CV, Voir LM, Télécharger ZIP, Télécharger Rapport) sont gérées par les liens <a>
+});
 
-                    try {
-                        const response = await fetch('dates.php', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                id_candidature: idCandidature,
-                                date_debut_stage: dateDebut,
-                                date_fin_stage: dateFin
-                            })
-                        });
+// Écouteur pour le bouton de sauvegarde dans le modal
+saveModalDatesBtn.addEventListener('click', async () => {
+    if (!currentModalCandidatureId) {
+        showMessageBox('Aucune candidature sélectionnée pour la sauvegarde des dates.', 'error');
+        return;
+    }
 
-                        const result = await response.json();
-                        if (result.success) {
-                            showMessageBox(result.message, 'success');
-                            // Recharger les stages actifs pour refléter le nouveau statut et les dates
-                            await loadActiveInternships(currentCompanyId);
-                            // Recharger aussi les candidatures au cas où le statut a changé
-                            await loadApplicationsForCompany(currentCompanyId);
-                        } else {
-                            showMessageBox(`Erreur lors de la sauvegarde des dates: ${result.message || 'Erreur inconnue'}.`, 'error');
-                        }
-                    } catch (error) {
-                        console.error("Erreur lors de l'envoi des dates:", error);
-                        showMessageBox(`Une erreur est survenue lors de la sauvegarde des dates: ${error.message || 'Erreur inconnue'}.`, 'error');
-                    }
-                }
-            });
+    const dateDebut = modalDateDebutInput.value;
+    const dateFin = modalDateFinInput.value;
 
+    if (!dateDebut || !dateFin) {
+        showMessageBox('Veuillez saisir les dates de début et de fin.', 'error');
+        return;
+    }
 
+    if (new Date(dateFin) < new Date(dateDebut)) {
+        showMessageBox('La date de fin ne peut pas être antérieure à la date de début.', 'error');
+        return;
+    }
+
+    console.log(`Tentative de sauvegarde des dates pour candidature ID ${currentModalCandidatureId}: Début ${dateDebut}, Fin ${dateFin}`);
+
+    try {
+        const response = await fetch('dates.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id_candidature: currentModalCandidatureId,
+                date_debut_stage: dateDebut,
+                date_fin_stage: dateFin
+            })
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            showMessageBox(result.message, 'success');
+            dateModal.style.display = 'none'; // Cacher le modal après succès
+            // Recharger les stages actifs pour refléter le nouveau statut et les dates
+            await loadActiveInternships(currentCompanyId);
+            // Recharger aussi les candidatures au cas où le statut a changé
+            await loadApplicationsForCompany(currentCompanyId);
+        } else {
+            showMessageBox(`Erreur lors de la sauvegarde des dates: ${result.message || 'Erreur inconnue'}.`, 'error');
+        }
+    } catch (error) {
+        console.error("Erreur lors de l'envoi des dates:", error);
+        showMessageBox(`Une erreur est survenue lors de la sauvegarde des dates: ${error.message || 'Erreur inconnue'}.`, 'error');
+    }
+});
+
+// Écouteurs pour fermer le modal
+closeButton.addEventListener('click', () => {
+    dateModal.style.display = 'none';
+});
+
+// Fermer le modal si l'utilisateur clique en dehors du contenu du modal
+window.addEventListener('click', (event) => {
+    if (event.target === dateModal) {
+        dateModal.style.display = 'none';
+    }
+});
             // --- Logique des onglets ---
             function showSection(sectionToShow, activeTab) { // Simplifié pour ne prendre que la section à montrer et l'onglet actif
                 console.log('showSection: Changement de section vers:', sectionToShow.id);

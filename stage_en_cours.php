@@ -40,7 +40,7 @@ try {
         JOIN
             tb_etudiant te ON tc.id_etudiant = te.id_etudiant
         WHERE
-            ps.id_entreprise = :company_id AND (tc.statut = 'acceptée' OR tc.statut = 'signée')
+            ps.id_entreprise = :company_id AND (tc.statut = 'signée' OR tc.statut = 'en cours')
             ORDER BY
             tc.date_candidature DESC, tc.date_debut_stage DESC
        
